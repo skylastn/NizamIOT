@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_sensor2"
+    android:padding="16dp"
+    tools:context=".DetailSensorMasukActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_weight="0.2"
+                android:id="@+id/backsensor"
+                android:layout_gravity="center_vertical"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_back2"
+                />
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_weight="0.8"
+                android:layout_height="60dp"
+                android:textSize="20sp"
+                android:src="@drawable/ic_home"
+                android:text="KELAS ONLINE"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="45sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/hitam"
+            android:text="Sensor Masuk"/>
+
+        <TextView
+            android:id="@+id/debitsensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:background="@drawable/roundbuttonkategori1"
+            android:gravity="center"
+            android:textColor="@color/hitam"
+            android:text="Debit Sensor Masuk (M^3/s)\n -> 30"/>
+
+        <TextView
+            android:id="@+id/kecepatanaliran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/roundbuttonkategori1"
+            android:textColor="@color/hitam"
+            android:text="Kecepatan Aliran Masuk\n -> 30"/>
+
+        <TextView
+            android:id="@+id/selisih"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/roundbuttonkategori1"
+            android:textColor="@color/hitam"
+            android:text="Selisih \nSensor Masuk - Sensor Keluar\n -> 30"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/roundbuttonkategori1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/hitam"
+                android:text="Kondisi Status"/>
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/red"
+                android:text="-> Aman/Tidak Aman"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

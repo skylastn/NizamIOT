@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="5dp"
+
+    android:background="@drawable/roundbuttonkategori1"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    >
+
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_weight="0.7"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:id="@+id/tgl_sensor"
+            android:text="Tanggal Dibuat : "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/posisifield"
+                android:text="Field ke : "
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_buka_sensor"
+                android:text="Lihat"
+                android:textColor="@color/putih"
+                android:background="@drawable/round_button_purple"
+                android:layout_width="60dp"
+                android:layout_height="25dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
