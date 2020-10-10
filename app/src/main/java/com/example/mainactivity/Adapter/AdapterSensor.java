@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,14 +37,23 @@ public class AdapterSensor extends RecyclerView.Adapter<AdapterSensor.MyViewHold
         return new AdapterSensor.MyViewHolder(itemView);
     }
 
-
+    public static String removeCharAt(String s, int pos) {
+        return s.substring(0, pos) + s.substring(pos + 1);
+    }
     @Override
     public void onBindViewHolder (final AdapterSensor.MyViewHolder holder, final int position){
 
         final SemuaSensor item = mArtikellist.get(position);
         int mposisi = position+1;
-        holder.field.setText("Posisi Field Ke : "+item.getEntry_id());
-        holder.tgl.setText("Tgl : "+item.getCreated_at());
+        holder.field.setText("Posisi Data Ke : "+item.getEntry_id());
+
+        String created = item.getCreated_at();
+        String[] kata = created.split("T");
+        holder.tgl.setText("Tgl : "+kata[0]);
+        holder.jam.setText("Jam : "+removeCharAt(kata[1], kata[1].lastIndexOf("Z"))+" (GMT+00:00)");
+//        Toast.makeText(mContext2, item.getField1()+":"+item.getField2(), Toast.LENGTH_LONG).show();
+
+
         holder.btn_Open.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,8 +64,8 @@ public class AdapterSensor extends RecyclerView.Adapter<AdapterSensor.MyViewHold
                 mIntent.putExtra("field1", item.getField1());
                 mIntent.putExtra("field2", item.getField2());
                 mIntent.putExtra("field3", item.getField3());
-                mIntent.putExtra("field4", item.getField4());
-                mIntent.putExtra("field5", item.getField5());
+//                mIntent.putExtra("field4", item.getField4());
+//                mIntent.putExtra("field5", item.getField5());
                 mIntent.putExtra("back", cekBack);
 
                 view.getContext().startActivity(mIntent);
@@ -70,7 +80,7 @@ public class AdapterSensor extends RecyclerView.Adapter<AdapterSensor.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView field, tgl;
+        public TextView field, tgl, jam;
         public Button btn_Open;
         public Context context ;
 
@@ -79,6 +89,7 @@ public class AdapterSensor extends RecyclerView.Adapter<AdapterSensor.MyViewHold
             field = itemView.findViewById(R.id.tgl_sensor);
             tgl = itemView.findViewById(R.id.posisifield);
             btn_Open = itemView.findViewById(R.id.btn_buka_sensor);
+            jam = itemView.findViewById(R.id.jamfield);
 
         }
     }

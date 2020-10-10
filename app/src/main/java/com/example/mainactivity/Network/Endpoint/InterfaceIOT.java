@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 
 public interface InterfaceIOT {
 
-    @GET("feeds.json")
+    @GET("feeds.json?results=5")
     Call<ResponseBody> getItem();
 
 }

@@ -39,6 +39,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textsensordetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -58,19 +59,19 @@
             android:background="@drawable/roundbuttonkategori1"
             android:gravity="center"
             android:textColor="@color/hitam"
-            android:text="Debit Sensor Masuk (M^3/s)\n -> 30"/>
+            android:text="Debit Sensor Masuk (mL/s)\n -> 30"/>
 
-        <TextView
-            android:id="@+id/kecepatanaliran"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:background="@drawable/roundbuttonkategori1"
-            android:textColor="@color/hitam"
-            android:text="Kecepatan Aliran Masuk\n -> 30"/>
+<!--        <TextView-->
+<!--            android:id="@+id/kecepatanaliran"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:gravity="center"-->
+<!--            android:background="@drawable/roundbuttonkategori1"-->
+<!--            android:textColor="@color/hitam"-->
+<!--            android:text="Kecepatan Aliran Masuk\n -> 30"/>-->
 
         <TextView
             android:id="@+id/selisih"

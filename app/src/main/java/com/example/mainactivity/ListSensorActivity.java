@@ -1,13 +1,22 @@
 package com.example.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.mainactivity.Adapter.AdapterSensor;
@@ -36,6 +45,8 @@ public class ListSensorActivity extends AppCompatActivity {
     List<SemuaSensor>listSensor;
     String cekBack;
     Intent intent;
+//    ImageView back, home;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +55,37 @@ public class ListSensorActivity extends AppCompatActivity {
 
         mContext = ListSensorActivity.this;
         mRecyclerView = findViewById(R.id.recyler);
+//        back = findViewById(R.id.backlist_sensor);
+//        home = findViewById(R.id.homelistsensor);
 
         intent = getIntent();
         cekBack = intent.getStringExtra("back");
+
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent1 = new Intent(ListSensorActivity.this, MainActivity.class);
+//                startActivity(intent1);
+//            }
+//        });
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mApiInterface = ApiClient.getAPIService();
         refreshListSensor();
 
+    }
 
+    private int getNotificationIcon(NotificationCompat.Builder
+                                            notificationBuilder) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            int color = 0x008000;
+            notificationBuilder.setColor(color);
+            return R.drawable.ic_notif;
+
+        }
+        return R.drawable.ic_notif;
     }
 
     private void refreshListSensor() {
@@ -72,6 +104,58 @@ public class ListSensorActivity extends AppCompatActivity {
 //                                String strupdated="", strcategory="",strmerk="", strprice="",
 //                                        strpurchase="", strstatus="", strstock="", strstockmin="", strlokasi="",
 //                                        strimage="";
+                                JSONObject lastfield3 = subArray2.optJSONObject(subArray2.length()-1);;
+                                double convertfield3 = lastfield3.optDouble("field3");
+
+                                if (convertfield3<200){
+
+                                    String strcreated_at2="", strentry_id2="", strfield12="",strfield22="",strfield32="";
+                                    strcreated_at2=lastfield3.optString("created_at");
+                                    strentry_id2=lastfield3.optString("entry_id");
+                                    strfield12 = lastfield3.optString("field1");
+                                    strfield22 = lastfield3.optString("field2");
+                                    strfield32 = lastfield3.optString("field3");
+
+                                    NotificationManager mNotificationManager;
+                                    NotificationCompat.Builder mBuilder;
+                                    String NOTIFICATION_CHANNEL_ID = "10001";
+                                    mBuilder = new NotificationCompat.Builder(mContext);
+                                    mBuilder.setSmallIcon(getNotificationIcon(mBuilder));
+
+                                    mBuilder.setContentText("Terjadi Kebocoran > 200 mL/s")
+                                            .setContentTitle("BERITA KEBOCORAN")
+                                            .setAutoCancel(false)
+                                            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+
+
+                                    Intent notificationIntent = new Intent(mContext, DetailSensorMasukActivity.class);
+                                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    notificationIntent.putExtra("created_at", strcreated_at2);
+                                    notificationIntent.putExtra("entry_id", strentry_id2);
+                                    notificationIntent.putExtra("field1", strfield12);
+                                    notificationIntent.putExtra("field2", strfield22);
+                                    notificationIntent.putExtra("field3", strfield32);
+                                    notificationIntent.putExtra("back", cekBack);
+
+                                    PendingIntent conPendingIntent = PendingIntent.getActivity(mContext,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                                    mBuilder.setContentIntent(conPendingIntent);
+                                    mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                        int importance = NotificationManager.IMPORTANCE_HIGH;
+                                        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Chat Kelas", importance);
+                                        notificationChannel.enableLights(true);
+                                        notificationChannel.setLightColor(Color.RED);
+                                        notificationChannel.enableVibration(true);
+                                        notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                        assert mNotificationManager != null;
+                                        mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                                        mNotificationManager.createNotificationChannel(notificationChannel);
+                                    }
+                                    assert mNotificationManager != null;
+                                    mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+
+                                }
 
                                 listSensor = new ArrayList<>();
                                 SemuaSensor semuaSensor;

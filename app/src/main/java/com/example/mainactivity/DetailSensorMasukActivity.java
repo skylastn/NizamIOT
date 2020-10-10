@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,11 +12,15 @@ import android.widget.TextView;
 public class DetailSensorMasukActivity extends AppCompatActivity {
 
     Intent intent;
-    String cekback, field1, field2, field3, field4, field5;
-    TextView debit, kecepatan, selisih, status;
+    String cekback, field1, field2, field3;
+//            field4, field5;
+    TextView debit,
+        textsensordetail,
+//        kecepatan,
+        selisih, status;
 
     ImageView back, home;
-    int nilaistat;
+    double nilaistat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +30,17 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
         back = findViewById(R.id.backsensor);
         home = findViewById(R.id.home);
         debit = findViewById(R.id.debitsensor);
-        kecepatan = findViewById(R.id.kecepatanaliran);
+//        kecepatan = findViewById(R.id.kecepatanaliran);
         selisih = findViewById(R.id.selisih);
         status = findViewById(R.id.status);
-
+        textsensordetail = findViewById(R.id.textsensordetail);
 
         intent = getIntent();
         field1 = intent.getStringExtra("field1");
         field2 = intent.getStringExtra("field2");
         field3 = intent.getStringExtra("field3");
-        field4 = intent.getStringExtra("field4");
-        field5 = intent.getStringExtra("field5");
+//        field4 = intent.getStringExtra("field4");
+//        field5 = intent.getStringExtra("field5");
 
         if (field1.equals("null")||field1.isEmpty()){
             field1 = "0";
@@ -45,15 +50,17 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
         }
         if (field3.equals("null")||field3.isEmpty()){
             field3 = "0";
-        }
-        if (field4.equals("null")||field4.isEmpty()){
-            field4 = "0";
-        }
-        if (field5.equals("null")||field5.isEmpty()){
-            field5 = "0";
             nilaistat = 0;
-        }else {
-            nilaistat = Integer.parseInt(field5);
+        }
+//        if (field4.equals("null")||field4.isEmpty()){
+//            field4 = "0";
+//        }
+//        if (field5.equals("null")||field5.isEmpty()){
+//            field5 = "0";
+//
+//        }
+        else {
+            nilaistat = Double.parseDouble(field3);
         }
 
         cekback = intent.getStringExtra("back");
@@ -72,23 +79,27 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
                 startActivity(mIntent);
             }
         });
-        if (nilaistat<51){
-            status.setText("Tidak Aman");
+        if (nilaistat<200){
+            status.setText("BOCOR");
         }else {
-            status.setText("Aman");
+            status.setText("AMAN");
         }
 
 
         if (cekback.equals("sensormasuk")){
-        debit.setText("Debit Sensor Masuk\n-> "+field1);
-        kecepatan.setText("Kecepatan Aliran Masuk \n -> "+field3);
-        selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field5);
+            debit.setText("Debit Masuk\n-> "+field1);
+            Log.d("field 1 :", field1);
+            textsensordetail.setText("SENSOR MASUK");
+//        kecepatan.setText("Kecepatan Aliran Masuk \n -> "+field2);
+            selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field3);
 
 
-        }else if (cekback.equals("sensormasuk")){
-            debit.setText("Debit Sensor Keluar\n -> "+field2);
-            kecepatan.setText("Kecepatan Aliran Keluar \n -> "+field4);
-            selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field5);
+        }else if (cekback.equals("sensorkeluar")){
+            Log.d("field 2 :", field2);
+            debit.setText("Debit Keluar\n -> "+field2);
+            textsensordetail.setText("SENSOR KELUAR");
+//            kecepatan.setText("Kecepatan Aliran Keluar \n -> "+field2);
+            selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field3);
         }
 
     }
