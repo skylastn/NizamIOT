@@ -83,7 +83,7 @@
             android:gravity="center"
             android:background="@drawable/roundbuttonkategori1"
             android:textColor="@color/hitam"
-            android:text="Selisih \nSensor Masuk - Sensor Keluar\n -> 30"/>
+            android:text="Selisih \nDebit Masuk - Debit Keluar\n -> 30"/>
 
         <LinearLayout
             android:layout_width="match_parent"

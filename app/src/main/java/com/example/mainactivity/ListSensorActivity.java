@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mainactivity.Adapter.AdapterSensor;
@@ -44,7 +45,9 @@ public class ListSensorActivity extends AppCompatActivity {
     InterfaceIOT mApiInterface;
     List<SemuaSensor>listSensor;
     String cekBack;
+    ImageView next, home;
     Intent intent;
+    TextView title;
 //    ImageView back, home;
 
 
@@ -55,19 +58,44 @@ public class ListSensorActivity extends AppCompatActivity {
 
         mContext = ListSensorActivity.this;
         mRecyclerView = findViewById(R.id.recyler);
-//        back = findViewById(R.id.backlist_sensor);
-//        home = findViewById(R.id.homelistsensor);
+        next = findViewById(R.id.nextlist_sensor);
+        home = findViewById(R.id.homelistsensor);
+        title = findViewById(R.id.textsensorlist);
 
         intent = getIntent();
         cekBack = intent.getStringExtra("back");
 
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent1 = new Intent(ListSensorActivity.this, MainActivity.class);
-//                startActivity(intent1);
-//            }
-//        });
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(ListSensorActivity.this, MainActivity.class);
+                startActivity(intent1);
+            }
+        });
+
+        if (cekBack.equals("sensormasuk")){
+            title.setText("SENSOR MASUK");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1 = new Intent(ListSensorActivity.this, ListSensorActivity.class);
+                    intent1.putExtra("back", "sensorkeluar");
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent1);
+                }
+            });
+        }else if (cekBack.equals("sensorkeluar")){
+            title.setText("SENSOR KELUAR");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent1 = new Intent(ListSensorActivity.this, ListSensorActivity.class);
+                    intent1.putExtra("back", "sensormasuk");
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent1);
+                }
+            });
+        }
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         mRecyclerView.setLayoutManager(mLayoutManager);

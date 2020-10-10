@@ -91,7 +91,7 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
             Log.d("field 1 :", field1);
             textsensordetail.setText("SENSOR MASUK");
 //        kecepatan.setText("Kecepatan Aliran Masuk \n -> "+field2);
-            selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field3);
+            selisih.setText("Selisih\nDebit Masuk - Debit Keluar\n-> "+field3);
 
 
         }else if (cekback.equals("sensorkeluar")){
@@ -99,7 +99,7 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
             debit.setText("Debit Keluar\n -> "+field2);
             textsensordetail.setText("SENSOR KELUAR");
 //            kecepatan.setText("Kecepatan Aliran Keluar \n -> "+field2);
-            selisih.setText("Selisih\nSensor Masuk - Sensor Keluar\n-> "+field3);
+            selisih.setText("Selisih\nDebit Masuk - Debit Keluar\n-> "+field3);
         }
 
     }
