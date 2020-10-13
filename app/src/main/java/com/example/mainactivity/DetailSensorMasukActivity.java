@@ -80,9 +80,9 @@ public class DetailSensorMasukActivity extends AppCompatActivity {
             }
         });
         if (nilaistat<200){
-            status.setText("BOCOR");
-        }else {
             status.setText("AMAN");
+        }else {
+            status.setText("BOCOR");
         }
 
 
