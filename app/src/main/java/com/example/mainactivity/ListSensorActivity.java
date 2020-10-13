@@ -135,7 +135,7 @@ public class ListSensorActivity extends AppCompatActivity {
                                 JSONObject lastfield3 = subArray2.optJSONObject(subArray2.length()-1);;
                                 double convertfield3 = lastfield3.optDouble("field3");
 
-                                if (convertfield3<200){
+                                if (convertfield3>200){
 
                                     String strcreated_at2="", strentry_id2="", strfield12="",strfield22="",strfield32="";
                                     strcreated_at2=lastfield3.optString("created_at");
