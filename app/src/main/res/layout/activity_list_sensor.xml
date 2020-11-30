@@ -60,12 +60,12 @@
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/notiflistsensor"
+        android:id="@+id/refreshsensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
-        android:src="@drawable/ic_notif" />
+        android:src="@drawable/ic_refresh" />
 
 
 </LinearLayout>

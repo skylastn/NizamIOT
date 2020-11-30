@@ -24,6 +24,7 @@ import com.example.mainactivity.Adapter.AdapterSensor;
 import com.example.mainactivity.Model.SemuaSensor;
 import com.example.mainactivity.Network.ApiClient;
 import com.example.mainactivity.Network.Endpoint.InterfaceIOT;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +49,7 @@ public class ListSensorActivity extends AppCompatActivity {
     ImageView next, home;
     Intent intent;
     TextView title;
+    FloatingActionButton refresh;
 //    ImageView back, home;
 
 
@@ -61,6 +63,7 @@ public class ListSensorActivity extends AppCompatActivity {
         next = findViewById(R.id.nextlist_sensor);
         home = findViewById(R.id.homelistsensor);
         title = findViewById(R.id.textsensorlist);
+        refresh = findViewById(R.id.refreshsensor);
 
         intent = getIntent();
         cekBack = intent.getStringExtra("back");
@@ -102,6 +105,13 @@ public class ListSensorActivity extends AppCompatActivity {
         mApiInterface = ApiClient.getAPIService();
         refreshListSensor();
 
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refreshListSensor();
+            }
+        });
+
     }
 
     private int getNotificationIcon(NotificationCompat.Builder
@@ -127,76 +137,77 @@ public class ListSensorActivity extends AppCompatActivity {
                                 JSONObject jsonRESULTS = new JSONObject(response.body().string());
 //                                JSONArray subArray1 = jsonRESULTS.getJSONArray("channel");
                                 JSONArray subArray2 = jsonRESULTS.getJSONArray("feeds");
-                                String strcreated_at="", strentry_id="", strfield1="",strfield2="",strfield3="",strfield4=""
-                                        ,strfield5="";
+                                if (subArray2.length()>0){
+                                    String strcreated_at="", strentry_id="", strfield1="",strfield2="",strfield3="",strfield4=""
+                                            ,strfield5="";
 //                                String strupdated="", strcategory="",strmerk="", strprice="",
 //                                        strpurchase="", strstatus="", strstock="", strstockmin="", strlokasi="",
 //                                        strimage="";
-                                JSONObject lastfield3 = subArray2.optJSONObject(subArray2.length()-1);;
-                                double convertfield3 = lastfield3.optDouble("field3");
+                                    JSONObject lastfield3 = subArray2.optJSONObject(subArray2.length()-1);;
+                                    double convertfield3 = lastfield3.optDouble("field3");
 
-                                if (convertfield3>200){
+                                    if (convertfield3>200){
 
-                                    String strcreated_at2="", strentry_id2="", strfield12="",strfield22="",strfield32="";
-                                    strcreated_at2=lastfield3.optString("created_at");
-                                    strentry_id2=lastfield3.optString("entry_id");
-                                    strfield12 = lastfield3.optString("field1");
-                                    strfield22 = lastfield3.optString("field2");
-                                    strfield32 = lastfield3.optString("field3");
+                                        String strcreated_at2="", strentry_id2="", strfield12="",strfield22="",strfield32="";
+                                        strcreated_at2=lastfield3.optString("created_at");
+                                        strentry_id2=lastfield3.optString("entry_id");
+                                        strfield12 = lastfield3.optString("field1");
+                                        strfield22 = lastfield3.optString("field2");
+                                        strfield32 = lastfield3.optString("field3");
 
-                                    NotificationManager mNotificationManager;
-                                    NotificationCompat.Builder mBuilder;
-                                    String NOTIFICATION_CHANNEL_ID = "10001";
-                                    mBuilder = new NotificationCompat.Builder(mContext);
-                                    mBuilder.setSmallIcon(getNotificationIcon(mBuilder));
+                                        NotificationManager mNotificationManager;
+                                        NotificationCompat.Builder mBuilder;
+                                        String NOTIFICATION_CHANNEL_ID = "10001";
+                                        mBuilder = new NotificationCompat.Builder(mContext);
+                                        mBuilder.setSmallIcon(getNotificationIcon(mBuilder));
 
-                                    mBuilder.setContentText("Terjadi Kebocoran > 200 mL/s")
-                                            .setContentTitle("BERITA KEBOCORAN")
-                                            .setAutoCancel(false)
-                                            .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
+                                        mBuilder.setContentText("Terjadi Kebocoran > 200 mL/s")
+                                                .setContentTitle("BERITA KEBOCORAN")
+                                                .setAutoCancel(false)
+                                                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
 
-                                    Intent notificationIntent = new Intent(mContext, DetailSensorMasukActivity.class);
-                                    notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                    notificationIntent.putExtra("created_at", strcreated_at2);
-                                    notificationIntent.putExtra("entry_id", strentry_id2);
-                                    notificationIntent.putExtra("field1", strfield12);
-                                    notificationIntent.putExtra("field2", strfield22);
-                                    notificationIntent.putExtra("field3", strfield32);
-                                    notificationIntent.putExtra("back", cekBack);
+                                        Intent notificationIntent = new Intent(mContext, DetailSensorMasukActivity.class);
+                                        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        notificationIntent.putExtra("created_at", strcreated_at2);
+                                        notificationIntent.putExtra("entry_id", strentry_id2);
+                                        notificationIntent.putExtra("field1", strfield12);
+                                        notificationIntent.putExtra("field2", strfield22);
+                                        notificationIntent.putExtra("field3", strfield32);
+                                        notificationIntent.putExtra("back", cekBack);
 
-                                    PendingIntent conPendingIntent = PendingIntent.getActivity(mContext,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
-                                    mBuilder.setContentIntent(conPendingIntent);
-                                    mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+                                        PendingIntent conPendingIntent = PendingIntent.getActivity(mContext,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+                                        mBuilder.setContentIntent(conPendingIntent);
+                                        mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                        int importance = NotificationManager.IMPORTANCE_HIGH;
-                                        NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Chat Kelas", importance);
-                                        notificationChannel.enableLights(true);
-                                        notificationChannel.setLightColor(Color.RED);
-                                        notificationChannel.enableVibration(true);
-                                        notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                            int importance = NotificationManager.IMPORTANCE_HIGH;
+                                            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Chat Kelas", importance);
+                                            notificationChannel.enableLights(true);
+                                            notificationChannel.setLightColor(Color.RED);
+                                            notificationChannel.enableVibration(true);
+                                            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                                            assert mNotificationManager != null;
+                                            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
+                                            mNotificationManager.createNotificationChannel(notificationChannel);
+                                        }
                                         assert mNotificationManager != null;
-                                        mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
-                                        mNotificationManager.createNotificationChannel(notificationChannel);
+                                        mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
+
                                     }
-                                    assert mNotificationManager != null;
-                                    mNotificationManager.notify(0 /* Request Code */, mBuilder.build());
 
-                                }
-
-                                listSensor = new ArrayList<>();
-                                SemuaSensor semuaSensor;
-                                mAdapter = new AdapterSensor( mContext, listSensor, cekBack);
-                                mRecyclerView.setAdapter(mAdapter);
-                                for(int index=0;index<subArray2.length();index++){
-                                    JSONObject mStrcreated_at=subArray2.optJSONObject(index);
-                                    JSONObject mStrentry_id=subArray2.optJSONObject(index);
-                                    JSONObject mstrfield1=subArray2.optJSONObject(index);
-                                    JSONObject mstrfield2=subArray2.optJSONObject(index);
-                                    JSONObject mStrfield3=subArray2.optJSONObject(index);
-                                    JSONObject mStrfield4=subArray2.optJSONObject(index);
-                                    JSONObject mStrfield5=subArray2.optJSONObject(index);
+                                    listSensor = new ArrayList<>();
+                                    SemuaSensor semuaSensor;
+                                    mAdapter = new AdapterSensor( mContext, listSensor, cekBack);
+                                    mRecyclerView.setAdapter(mAdapter);
+                                    for(int index=0;index<subArray2.length();index++){
+                                        JSONObject mStrcreated_at=subArray2.optJSONObject(index);
+                                        JSONObject mStrentry_id=subArray2.optJSONObject(index);
+                                        JSONObject mstrfield1=subArray2.optJSONObject(index);
+                                        JSONObject mstrfield2=subArray2.optJSONObject(index);
+                                        JSONObject mStrfield3=subArray2.optJSONObject(index);
+                                        JSONObject mStrfield4=subArray2.optJSONObject(index);
+                                        JSONObject mStrfield5=subArray2.optJSONObject(index);
 //                                    JSONObject mStrUpdated=subArray2.optJSONObject(index);
 //                                    JSONObject mStrCategory=subArray2.optJSONObject(index);
 //                                    JSONObject mStrMerk=subArray2.optJSONObject(index);
@@ -208,15 +219,15 @@ public class ListSensorActivity extends AppCompatActivity {
 //                                    JSONObject mStrLokasi=subArray2.optJSONObject(index);
 //                                    JSONObject mStrImage=subArray2.optJSONObject(index);
 
-                                    // get image urls
+                                        // get image urls
 
-                                    strcreated_at=mStrcreated_at.optString("created_at");
-                                    strentry_id=mStrentry_id.optString("entry_id");
-                                    strfield1 = mstrfield1.optString("field1");
-                                    strfield2 = mstrfield2.optString("field2");
-                                    strfield3 = mStrfield3.optString("field3");
-                                    strfield4 = mStrfield4.optString("field4");
-                                    strfield5 = mStrfield5.optString("field5");
+                                        strcreated_at=mStrcreated_at.optString("created_at");
+                                        strentry_id=mStrentry_id.optString("entry_id");
+                                        strfield1 = mstrfield1.optString("field1");
+                                        strfield2 = mstrfield2.optString("field2");
+                                        strfield3 = mStrfield3.optString("field3");
+                                        strfield4 = mStrfield4.optString("field4");
+                                        strfield5 = mStrfield5.optString("field5");
 //                                    strupdated = mStrUpdated.optString("updated_at");
 //                                    strcategory = mStrCategory.optString("category_id");
 //                                    strmerk = mStrMerk.optString("merk");
@@ -229,13 +240,17 @@ public class ListSensorActivity extends AppCompatActivity {
 //                                    strimage = mStrImage.optString("image");
 //                                    Log.d("Cek Data Semua Grade", ":"+strcreated_at+":"+ strentry_id+":"+ strfield1+":"+
 //                                            strfield2+":"+ strfield3+":"+ strfield4+":"+ strfield5);
-                                    semuaSensor = new SemuaSensor(strcreated_at, strentry_id, strfield1,
-                                            strfield2, strfield3, strfield4,strfield5);
-                                    listSensor.add(semuaSensor);
+                                        semuaSensor = new SemuaSensor(strcreated_at, strentry_id, strfield1,
+                                                strfield2, strfield3, strfield4,strfield5);
+                                        listSensor.add(semuaSensor);
+
+                                    }
+
+                                    mAdapter.notifyDataSetChanged();
+                                }else {
 
                                 }
 
-                                mAdapter.notifyDataSetChanged();
 
 //                                Toast.makeText(getApplicationContext(), "Mohon Maaf Username dan Password Tidak Cocok", Toast.LENGTH_SHORT).show();
 
